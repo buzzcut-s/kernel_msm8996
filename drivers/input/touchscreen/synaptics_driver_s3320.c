@@ -1302,7 +1302,7 @@ static char prlog_count = 0;
 #ifdef REPORT_2D_PRESSURE
 static unsigned char pres_value = 1;
 #endif
-uint8_t int_touch(void)
+static inline uint8_t __int_touch(void)
 {
 	int ret = -1,i = 0;
 	uint8_t buf[90];
@@ -1449,6 +1449,11 @@ uint8_t int_touch(void)
     INT_TOUCH_END:
 	mutex_unlock(&ts->mutexreport);
 	return finger_num;
+}
+
+uint8_t int_touch(void)
+{
+	__int_touch();
 }
 
 static int synaptics_rmi4_free_fingers(struct synaptics_ts_data *ts)
