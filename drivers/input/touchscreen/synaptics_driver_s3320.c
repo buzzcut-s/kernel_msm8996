@@ -158,22 +158,22 @@ struct test_header {
 #define BIT6 (0x1 << 6)
 #define BIT7 (0x1 << 7)
 
-int left_arrow_enable = 0; //">"
-int right_arrow_enable = 0; //"<"
-int double_swipe_enable = 0; // "||"
-int letter_o_enable = 0; // "O"
-int down_arrow_enable = 0; //"V"
-int up_arrow_enable = 0; //"^"
-int double_tap_enable = 0; //"double tap"
+static int left_arrow_enable = 0; //">"
+static int right_arrow_enable = 0; //"<"
+static int double_swipe_enable = 0; // "||"
+static int letter_o_enable = 0; // "O"
+static int down_arrow_enable = 0; //"V"
+static int up_arrow_enable = 0; //"^"
+static int double_tap_enable = 0; //"double tap"
 
-int right_swipe_enable=0;//"(-->)"
-int left_swipe_enable=0;//"(<--)"
-int down_swipe_enable =0;//"up to down |"
-int up_swipe_enable =0;//"down to up |"
+static int right_swipe_enable=0;//"(-->)"
+static int left_swipe_enable=0;//"(<--)"
+static int down_swipe_enable =0;//"up to down |"
+static int up_swipe_enable =0;//"down to up |"
 
-int letter_w_enable =0;//"(W)"
-int letter_m_enable =0;//"(M)"
-int letter_s_enable =0;//"(S)"
+static int letter_w_enable =0;//"(W)"
+static int letter_m_enable =0;//"(M)"
+static int letter_s_enable =0;//"(S)"
 static int gesture_switch = 0;
 //ruanbanmao@BSP add for tp gesture 2015-05-06, end
 #endif
