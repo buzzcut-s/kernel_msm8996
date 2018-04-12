@@ -1224,6 +1224,9 @@
 	qcom,bcl {
 		/delete-property/ qcom,bcl-hotplug-list;
 		/delete-property/ qcom,bcl-soc-hotplug-list;
+		qcom,ibat-monitor {
+			qcom,mitigation-freq-khz = <1132800>;
+		};
 	};
 };
 
