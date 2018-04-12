@@ -47,16 +47,7 @@
 };
 
 &uartblsp2dm1 {
-	status = "ok";
-	/*Anderson-Config_UARTPIN_as_GPIO*[*/
-	pinctrl-names = "uart_active", "uart_deactive";
-	pinctrl-0 = <&uart_console_active>;
-	pinctrl-1 = <&uart_console_deactive>;
-	/*#else*/
-	/*pinctrl-names = "default";*/
-	/*pinctrl-0 = <&uart_console_active>;*/
-	/*#endif*/
-	/*Anderson-Config_UARTPIN_as_GPIO*]**/
+	status = "disabled";
 };
 
 &sdhc_1 {
@@ -1296,23 +1287,6 @@
 
 //msm8996-pinctrl.dtsi start
 &tlmm {
-	/*Anderson-Config_UARTPIN_as_GPIO+[*/
-	uart_console_deactive: uart_console_deactive {
-		mux {
-			pins = "gpio4", "gpio5";
-			function = "gpio";
-		};
-
-		config {
-			pins = "gpio4", "gpio5";
-			drive-strength = <2>;
-			bias-disable;
-		};
-	};
-	/*#endif*/
-	/*Anderson-Config_UARTPIN_as_GPIO+]*/
-
-	/*yankelong add*/
 	mdss_exits_active: mdss_exits_active {
 		mux {
 			pins = "gpio33";
