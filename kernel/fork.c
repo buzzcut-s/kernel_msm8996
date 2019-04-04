@@ -1711,7 +1711,7 @@ long do_fork(unsigned long clone_flags,
 	long nr;
 
 	/* Boost CPU & DDR bus to the max for 64 ms when userspace launches an app */
-	if (task_is_zygote(current)) {
+	if (task_is_zygote(current) && cpu_input_boost_within_input(75)) {
 		cpu_input_boost_kick_max(64);
 		devfreq_boost_kick_max(DEVFREQ_MSM_CPUBW, 64);
 	}
