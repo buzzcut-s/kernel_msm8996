@@ -77,6 +77,8 @@
 #include <linux/compiler.h>
 #include <linux/cpufreq.h>
 #include <linux/simple_lmk.h>
+#include <linux/cpu_input_boost.h>
+#include <linux/devfreq_boost.h>
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
@@ -1707,6 +1709,12 @@ long do_fork(unsigned long clone_flags,
 	struct task_struct *p;
 	int trace = 0;
 	long nr;
+
+	/* Boost CPU & DDR bus to the max for 64 ms when userspace launches an app */
+	if (task_is_zygote(current)) {
+		cpu_input_boost_kick_max(64);
+		devfreq_boost_kick_max(DEVFREQ_MSM_CPUBW, 64);
+	}
 
 	/*
 	 * Determine whether and which event to report to ptracer.  When
