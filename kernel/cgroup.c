@@ -59,6 +59,9 @@
 #include <linux/delay.h>
 
 #include <linux/atomic.h>
+#include <linux/binfmts.h>
+#include <linux/cpu_input_boost.h>
+#include <linux/devfreq_boost.h>
 
 /*
  * pidlists linger the following amount before being destroyed.  The goal
@@ -2406,7 +2409,15 @@ retry_find_task:
 		}
 	}
 
+
 	ret = cgroup_attach_task(cgrp, tsk, threadgroup);
+
+	/* This covers boosting for app launches and app transitions */
+	if (!ret && !threadgroup && !strcmp(of->kn->parent->name, "top-app") &&
+	    task_is_zygote(tsk->parent)) {
+		cpu_input_boost_kick_max(1500);
+		devfreq_boost_kick_max(DEVFREQ_MSM_CPUBW, 150);
+	}
 
 	threadgroup_unlock(tsk);
 
