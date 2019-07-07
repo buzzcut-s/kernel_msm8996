@@ -286,7 +286,6 @@ static void start_fault_timer(struct adreno_device *adreno_dev)
 static void _retire_marker(struct kgsl_cmdbatch *cmdbatch)
 {
 	struct kgsl_context *context = cmdbatch->context;
-	struct adreno_context *drawctxt = ADRENO_CONTEXT(cmdbatch->context);
 	struct kgsl_device *device = context->device;
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 
@@ -311,12 +310,13 @@ static void _retire_marker(struct kgsl_cmdbatch *cmdbatch)
 	 * rptr scratch out address. At this point GPU clocks turned off.
 	 * So avoid reading GPU register directly for A3xx.
 	 */
-	if (adreno_is_a3xx(adreno_dev))
+	if (adreno_is_a3xx(adreno_dev)) {
 		trace_adreno_cmdbatch_retired(cmdbatch, -1, 0, 0, drawctxt->rb,
 				0);
-	else
+	} else { 
 		trace_adreno_cmdbatch_retired(cmdbatch, -1, 0, 0, drawctxt->rb,
 			adreno_get_rptr(drawctxt->rb));
+	}
 	kgsl_cmdbatch_destroy(cmdbatch);
 }
 
@@ -561,7 +561,6 @@ static int sendcmd(struct adreno_device *adreno_dev,
 	struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
 	struct adreno_gpudev *gpudev = ADRENO_GPU_DEVICE(adreno_dev);
 	struct adreno_dispatcher *dispatcher = &adreno_dev->dispatcher;
-	struct adreno_context *drawctxt = ADRENO_CONTEXT(cmdbatch->context);
 	struct adreno_dispatcher_cmdqueue *dispatch_q =
 				ADRENO_CMDBATCH_DISPATCH_CMDQUEUE(cmdbatch);
 	struct adreno_submit_time time;
@@ -1410,19 +1409,10 @@ static void adreno_fault_header(struct kgsl_device *device,
 	adreno_readreg(adreno_dev, ADRENO_REG_CP_IB2_BUFSZ, &ib2sz);
 
 	if (cmdbatch != NULL) {
-		struct adreno_context *drawctxt =
-			ADRENO_CONTEXT(cmdbatch->context);
-
 		trace_adreno_gpu_fault(cmdbatch->context->id,
 			cmdbatch->timestamp,
 			status, rptr, wptr, ib1base, ib1sz,
 			ib2base, ib2sz, drawctxt->rb->id);
-
-		pr_fault(device, cmdbatch,
-			"gpu fault ctx %d ctx_type %s ts %d status %8.8X rb %4.4x/%4.4x ib1 %16.16llX/%4.4x ib2 %16.16llX/%4.4x\n",
-			cmdbatch->context->id, get_api_type_str(drawctxt->type),
-			cmdbatch->timestamp, status,
-			rptr, wptr, ib1base, ib1sz, ib2base, ib2sz);
 
 		if (rb != NULL)
 			pr_fault(device, cmdbatch,
@@ -1975,7 +1965,6 @@ static void cmdbatch_profile_ticks(struct adreno_device *adreno_dev,
 static void retire_cmdbatch(struct adreno_device *adreno_dev,
 		struct kgsl_cmdbatch *cmdbatch)
 {
-	struct adreno_dispatcher *dispatcher = &adreno_dev->dispatcher;
 	struct adreno_context *drawctxt = ADRENO_CONTEXT(cmdbatch->context);
 	uint64_t start = 0, end = 0;
 
@@ -1992,15 +1981,16 @@ static void retire_cmdbatch(struct adreno_device *adreno_dev,
 	 * rptr scratch out address. At this point GPU clocks turned off.
 	 * So avoid reading GPU register directly for A3xx.
 	 */
-	if (adreno_is_a3xx(adreno_dev))
+	if (adreno_is_a3xx(adreno_dev)) {
 		trace_adreno_cmdbatch_retired(cmdbatch,
 				(int) dispatcher->inflight, start, end,
 				ADRENO_CMDBATCH_RB(cmdbatch), 0);
-	else
+	} else {
 		trace_adreno_cmdbatch_retired(cmdbatch,
 				(int) dispatcher->inflight, start, end,
 				ADRENO_CMDBATCH_RB(cmdbatch),
 				adreno_get_rptr(drawctxt->rb));
+	}
 
 	drawctxt->submit_retire_ticks[drawctxt->ticks_index] =
 		end - cmdbatch->submit_ticks;
