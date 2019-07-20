@@ -4293,6 +4293,7 @@ static inline int update_preferred_cluster(struct related_thread_group *grp,
 	if (!grp)
 		return 0;
 
+
 	/*
 	 * Update if task's load has changed significantly or a complete window
 	 * has passed since we last updated preference
@@ -8331,6 +8332,10 @@ int set_cpus_allowed_ptr(struct task_struct *p, const struct cpumask *new_mask)
 	unsigned int dest_cpu;
 	int ret = 0;
 
+	/* Force all performance-critical kthreads onto the big cluster */
+	if (p->flags & PF_PERF_CRITICAL)
+		new_mask = cpu_perf_mask;
+		
 	rq = task_rq_lock(p, &flags);
 
 	if (cpumask_equal(&p->cpus_allowed, new_mask))
