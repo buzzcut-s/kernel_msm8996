@@ -5342,12 +5342,14 @@ REG_TABLE_ENTRY g_registry_table[] =
                 CFG_SUB_20_CHANNEL_WIDTH_MIN,
                 CFG_SUB_20_CHANNEL_WIDTH_MAX),
 
+#ifdef WLAN_FEATURE_RX_WAKELOCK
    REG_VARIABLE(CFG_RX_WAKELOCK_TIMEOUT_NAME, WLAN_PARAM_Integer,
                 hdd_config_t, rx_wakelock_timeout,
                 VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
                 CFG_RX_WAKELOCK_TIMEOUT_DEFAULT,
                 CFG_RX_WAKELOCK_TIMEOUT_MIN,
                 CFG_RX_WAKELOCK_TIMEOUT_MAX),
+#endif
 
    REG_VARIABLE(CFG_SAP_CH_SWITCH_BEACON_CNT, WLAN_PARAM_Integer,
                 hdd_config_t, sap_chanswitch_beacon_cnt,

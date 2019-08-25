@@ -5506,10 +5506,12 @@ FG_BTC_BT_INTERVAL_PAGE_P2P_STA_DEFAULT
 #define CFG_PROBE_REQ_OUI_NAME    "gProbeReqOUIs"
 #define CFG_PROBE_REQ_OUI_DEFAULT ""
 
+#ifdef WLAN_FEATURE_RX_WAKELOCK
 #define CFG_RX_WAKELOCK_TIMEOUT_NAME         "rx_wakelock_timeout"
 #define CFG_RX_WAKELOCK_TIMEOUT_DEFAULT      (50)
 #define CFG_RX_WAKELOCK_TIMEOUT_MIN          (0)
 #define CFG_RX_WAKELOCK_TIMEOUT_MAX          (100)
+#endif
 
 /*
  * <ini>
@@ -6894,7 +6896,11 @@ struct hdd_config {
    /* parameter for indicating sub20 channel width */
    uint8_t                     sub_20_channel_width;
    bool                        sta_change_cc_via_beacon;
+
+   #ifdef WLAN_FEATURE_RX_WAKELOCK
    uint32_t                    rx_wakelock_timeout;
+   #endif
+   
    /* beacon count before channel switch */
    uint8_t                     sap_chanswitch_beacon_cnt;
    uint8_t                     sap_chanswitch_mode;
