@@ -1870,6 +1870,7 @@ EXTRA_CFLAGS += -Wno-typedef-redefinition
 EXTRA_CFLAGS += -Wno-shift-count-overflow
 EXTRA_CFLAGS += -Wno-non-literal-null-conversion
 EXTRA_CFLAGS += -Wno-logical-not-parentheses
+EXTRA_CFLAGS += -Wno-void-pointer-to-enum-cast
 endif 
 EXTRA_CFLAGS += -Wno-unused-function -Wno-unused-variable
 
