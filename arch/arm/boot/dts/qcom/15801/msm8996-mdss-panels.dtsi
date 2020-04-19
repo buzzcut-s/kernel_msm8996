@@ -134,6 +134,7 @@
 	qcom,esd-check-enabled;
 	qcom,mdss-dsi-panel-status-check-mode = "te_signal_check";
 	qcom,ulps-enabled;
+	qcom,suspend-ulps-enabled;
 	qcom,panel-allow-phy-poweroff;
 	cm,mdss-livedisplay-cabc-cmd = [
 		15 01 00 00 00 00 02 55 00];
