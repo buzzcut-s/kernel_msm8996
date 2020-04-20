@@ -2097,9 +2097,6 @@
 		qcom,fast-avg-setup = <0>;
 	};
 };
-&pm8994_rtc {
-	qcom,qpnp-rtc-alarm-pwrup = <1>;
-};
 
 // msm-pmi8994.dtsi
 &spmi_bus {
