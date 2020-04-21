@@ -179,6 +179,7 @@
 	qcom,esd-check-enabled;
 	qcom,mdss-dsi-panel-status-check-mode = "te_signal_check";
 	qcom,ulps-enabled;
+	qcom,suspend-ulps-enabled;
 	qcom,partial-update-enabled = "single_roi";
 	qcom,panel-roi-alignment = <1080 8 1080 8 1080 8>;
 	qcom,panel-allow-phy-poweroff;
