@@ -21,7 +21,7 @@
 	interrupt-parent = <&intc>;
 
 	chosen {
-		bootargs = "quiet sched_enable_hmp=1 sched_enable_power_aware=1 app_setting.use_32bit_app_setting=1 kpti=1 noirqdebug";
+		bootargs = "quiet sched_enable_hmp=1 sched_enable_power_aware=1 app_setting.use_32bit_app_setting=1 kpti=1 noirqdebug rcupdate.rcu_normal_after_boot=1";
 	};
 
 	aliases {
