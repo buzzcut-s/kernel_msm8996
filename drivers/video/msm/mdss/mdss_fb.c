@@ -80,6 +80,9 @@
 #define BLANK_FLAG_ULP	FB_BLANK_NORMAL
 #endif
 
+static int frame_boost_timeout __read_mostly = CONFIG_MDSS_FRAME_BOOST_TIMEOUT;
+module_param(frame_boost_timeout, int, 0644);
+
 /*
  * Time period for fps calulation in micro seconds.
  * Default value is set to 1 sec.
@@ -4815,6 +4818,17 @@ static bool check_not_supported_ioctl(u32 cmd)
 }
 #endif
 
+static void mdss_kick_frame_boost(int timeout_ms)
+{
+	if (!timeout_ms)
+		return;
+
+	if (timeout_ms < 0 || cpu_input_boost_within_input(timeout_ms)) {
+		cpu_input_boost_kick();
+		devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
+	}
+}
+
 /*
  * mdss_fb_do_ioctl() - MDSS Framebuffer ioctl function
  * @info:	pointer to framebuffer info
@@ -4906,8 +4920,7 @@ int mdss_fb_do_ioctl(struct fb_info *info, unsigned int cmd,
 		break;
 	case MSMFB_ATOMIC_COMMIT:
 #ifdef CONFIG_DEVFREQ_BOOST
-		cpu_input_boost_kick();	
-		devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
+		mdss_kick_frame_boost(frame_boost_timeout);
 #endif
 		ret = mdss_fb_atomic_commit_ioctl(info, argp, file);
 		break;
