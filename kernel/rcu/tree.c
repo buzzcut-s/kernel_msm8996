@@ -1287,6 +1287,8 @@ static inline void panic_on_rcu_stall(void)
 {
 	if (sysctl_panic_on_rcu_stall)
 		panic("RCU Stall\n");
+}
+
 /*
  * If too much time has passed in the current grace period, and if
  * so configured, go kick the relevant kthreads.
